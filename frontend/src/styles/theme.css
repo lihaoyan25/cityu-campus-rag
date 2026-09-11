@@ -1,0 +1,155 @@
+/* ============ CityU Macau 设计系统 ============ */
+:root {
+  /* 主色: 官网深绿系 */
+  --c-primary: #00594a;
+  --c-primary-light: #0a7a63;
+  --c-primary-lighter: #e6f2ef;
+  /* 金色点缀(校徽金) */
+  --c-gold: #c8a565;
+  --c-gold-soft: #f3e9d5;
+  /* 侧栏深色渐变 */
+  --c-sidebar-1: #06281f;
+  --c-sidebar-2: #0b3d31;
+  /* 中性 */
+  --c-bg: #f4f7f6;
+  --c-card: #ffffff;
+  --c-border: #e4eae8;
+  --c-text: #1f2d29;
+  --c-text-2: #5f6f6a;
+  --c-text-3: #93a39e;
+  --c-danger: #c0483b;
+  /* 圆角与阴影 */
+  --r-sm: 8px;
+  --r-md: 12px;
+  --r-lg: 18px;
+  --shadow-card: 0 2px 12px rgba(6, 40, 31, 0.06);
+  --shadow-float: 0 8px 30px rgba(6, 40, 31, 0.14);
+  --font-mono: 'JetBrains Mono', 'Cascadia Code', Consolas, monospace;
+}
+
+* { box-sizing: border-box; }
+
+html, body, #app {
+  height: 100%;
+  margin: 0;
+  font-family: 'PingFang SC', 'Microsoft YaHei', 'Segoe UI', system-ui, sans-serif;
+  color: var(--c-text);
+  background: var(--c-bg);
+}
+
+/* Naive UI 的 n-config-provider 会包一层 div，必须撑满否则内部 height:100% 链条断裂 */
+#app > .n-config-provider {
+  height: 100%;
+}
+
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-thumb { background: #c7d4d0; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #a8bab4; }
+::-webkit-scrollbar-track { background: transparent; }
+
+/* ============ Markdown 正文 ============ */
+.md-body {
+  line-height: 1.75;
+  font-size: 15px;
+  word-break: break-word;
+}
+.md-body > :first-child { margin-top: 0; }
+.md-body > :last-child { margin-bottom: 0; }
+.md-body p { margin: 0.6em 0; }
+.md-body h1, .md-body h2, .md-body h3, .md-body h4 {
+  margin: 1.1em 0 0.5em;
+  font-weight: 600;
+  color: var(--c-primary);
+}
+.md-body h1 { font-size: 1.35em; }
+.md-body h2 { font-size: 1.2em; }
+.md-body h3 { font-size: 1.08em; }
+.md-body ul, .md-body ol { padding-left: 1.5em; margin: 0.5em 0; }
+.md-body li { margin: 0.25em 0; }
+.md-body blockquote {
+  margin: 0.8em 0;
+  padding: 0.5em 1em;
+  border-left: 3px solid var(--c-gold);
+  background: var(--c-gold-soft);
+  border-radius: 0 var(--r-sm) var(--r-sm) 0;
+  color: var(--c-text-2);
+}
+.md-body code {
+  font-family: var(--font-mono);
+  font-size: 0.88em;
+  background: rgba(0, 89, 74, 0.08);
+  padding: 0.15em 0.4em;
+  border-radius: 4px;
+}
+.md-body pre {
+  background: #0d2620;
+  color: #d9e8e3;
+  padding: 14px 16px;
+  border-radius: var(--r-md);
+  overflow-x: auto;
+  margin: 0.8em 0;
+}
+.md-body pre code { background: transparent; padding: 0; color: inherit; }
+
+/* 代码块复制按钮(v-html 动态插入，样式须放全局) */
+.md-body .code-wrap { position: relative; }
+.md-body .code-copy {
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  z-index: 2;
+  font-size: 12px;
+  font-family: inherit;
+  color: #9fc3b8;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 6px;
+  padding: 3px 10px;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.15s, color 0.15s, background 0.15s;
+}
+.md-body .code-wrap:hover .code-copy { opacity: 1; }
+.md-body .code-copy:hover { color: #fff; background: rgba(255, 255, 255, 0.2); }
+.md-body .code-copy.copied { color: #7fe0b0; border-color: rgba(127, 224, 176, 0.5); opacity: 1; }
+.md-body table {
+  border-collapse: collapse;
+  margin: 0.8em 0;
+  width: 100%;
+  font-size: 0.93em;
+}
+.md-body th, .md-body td {
+  border: 1px solid var(--c-border);
+  padding: 6px 12px;
+  text-align: left;
+}
+.md-body th { background: var(--c-primary-lighter); color: var(--c-primary); }
+.md-body a { color: var(--c-primary-light); }
+.md-body hr { border: none; border-top: 1px solid var(--c-border); margin: 1.2em 0; }
+
+/* 代码高亮(hljs 主题色适配深色代码块) */
+.md-body .hljs-keyword, .md-body .hljs-selector-tag, .md-body .hljs-built_in { color: #7fd6b0; }
+.md-body .hljs-string, .md-body .hljs-attr { color: #e8c987; }
+.md-body .hljs-comment { color: #6f8d85; }
+.md-body .hljs-number, .md-body .hljs-literal { color: #9ecf9e; }
+.md-body .hljs-title, .md-body .hljs-name { color: #8fc7ff; }
+
+/* ============ 通用动画 ============ */
+@keyframes blink-caret {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+.stream-caret {
+  display: inline-block;
+  width: 2px;
+  height: 1em;
+  background: var(--c-primary);
+  vertical-align: -0.15em;
+  margin-left: 2px;
+  animation: blink-caret 0.9s infinite;
+}
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.fade-up { animation: fade-up 0.3s ease both; }

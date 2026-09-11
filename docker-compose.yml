@@ -1,0 +1,63 @@
+# CityU Campus RAG — 一键容器化部署
+# 用法: 在项目根目录编辑好 .env 后执行  docker compose up -d --build
+services:
+  mysql:
+    image: mysql:8.0
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-cityu_rag_root}
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-cityu_rag}
+      TZ: Asia/Shanghai
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    volumes:
+      - mysql-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-uroot", "-p$$MYSQL_ROOT_PASSWORD"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+
+  chroma:
+    image: chromadb/chroma:1.5.9     # 版本必须与 backend 客户端 chromadb 匹配
+    restart: unless-stopped
+    volumes:
+      - chroma-data:/data
+    environment:
+      - TZ=Asia/Shanghai
+    expose:
+      - "8001"
+
+  backend:
+    build: ./backend
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      TZ: Asia/Shanghai
+      # 容器特有覆盖: 服务名互访 + 容器 MySQL 密码
+      CHROMA_HTTP_HOST: chroma
+      CHROMA_HTTP_PORT: "8001"
+      MYSQL_HOST: mysql
+      MYSQL_PASSWORD: ${MYSQL_ROOT_PASSWORD:-cityu_rag_root}
+    volumes:
+      - backend-data:/app/data       # uploads 上传文件持久化
+    depends_on:
+      mysql:
+        condition: service_healthy   # 等待 MySQL 就绪再建表
+      chroma:
+        condition: service_started
+    expose:
+      - "8000"
+
+  nginx:
+    build: ./frontend
+    restart: unless-stopped
+    ports:
+      - "80:80"                      # 浏览器直接访问 http://服务器IP
+    depends_on:
+      - backend
+
+volumes:
+  mysql-data:
+  chroma-data:
+  backend-data:
