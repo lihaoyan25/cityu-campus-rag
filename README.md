@@ -2,6 +2,9 @@
 
 基于 **FastAPI + ChromaDB + MySQL + DeepSeek + GLM embedding-3** 的校园智能问答系统(R-A-G)
 
+> **想部署这个项目？** 保姆级部署教程请看 **[DEPLOY.md](DEPLOY.md)**:
+> 涵盖 API Key 申请、.env 配置、本地部署、云服务器 Docker 一键部署、常见问题排查, 零基础可跟随
+
 ## 架构总览
 
 ```
@@ -51,6 +54,7 @@ frontend/nginx.conf             # 前端容器内 nginx(SPA 路由 + /api 反代
 
 ## 快速开始(本地开发)
 
+> 逐行讲解的完整版本(含软件安装、API Key 申请)见 [DEPLOY.md](DEPLOY.md);
 > 服务器生产部署请直接看下方 [Docker 一键部署](#服务器部署), 无需 Python/Node 环境
 
 ```bash
