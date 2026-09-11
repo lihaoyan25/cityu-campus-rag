@@ -198,7 +198,7 @@ ADMIN_PASSWORD=please-use-a-strong-password
    CREATE DATABASE cityu_rag DEFAULT CHARACTER SET utf8;
    ```
 
-   > 项目已兼容 MySQL 5.1 ~ 8.x（utf8 + InnoDB），学校老版本 MySQL 也能用。
+   > 项目已兼容 MySQL 5.1 ~ 8.x（utf8 + InnoDB），老版本 MySQL 也能用。
 
 ### 2. 启动后端（开一个终端）
 
@@ -255,11 +255,11 @@ npm run dev
 > 只需要一台装好 Docker 的服务器，不需要装 Python/Node/MySQL。
 > 以下以 **阿里云/腾讯云轻量应用服务器 + Ubuntu 22.04/24.04** 为例。
 
-### 1. 购买服务器
+### 1. 购买服务器（以阿里云服务器为例）
 
 - **配置建议**：2核4GB 起步（2核2GB 跑 MySQL 容器偏紧，务必按第 3 步加 swap）、系统盘 40GB+
 - **镜像**：直接选纯 Ubuntu 系统镜像即可（下面会装 Docker）；选「应用镜像 - Docker」也行，可跳过安装步骤
-- **地域**：离学校近的国内节点（访问 DeepSeek/智谱 API 国内直连无障碍）
+- **地域**：因为该系统面向高校，尽量选择离学校近的国内节点（访问 DeepSeek/智谱 API 国内直连无障碍）
 
 ### 2. SSH 登录服务器
 
