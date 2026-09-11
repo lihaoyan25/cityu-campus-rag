@@ -118,4 +118,16 @@ function backHome() {
 .ghost:hover { color: #fff; border-color: rgba(255, 255, 255, 0.5); }
 
 .admin-body { flex: 1; overflow-y: auto; padding: 24px 28px; }
+
+/* ---- 窄屏: 菜单横向滚动 + 收缩间距 ---- */
+@media (max-width: 768px) {
+  .admin-topbar { padding: 0 10px; gap: 8px; }
+  .menu { overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+  .menu::-webkit-scrollbar { display: none; }
+  .menu-item { padding: 0 12px; font-size: 12.5px; flex-shrink: 0; }
+  .menu-item.active::after { left: 8px; right: 8px; }
+  .right { gap: 6px; }
+  .ghost { height: 30px; padding: 0 10px; font-size: 12px; flex-shrink: 0; }
+  .admin-body { padding: 14px 12px; }
+}
 </style>

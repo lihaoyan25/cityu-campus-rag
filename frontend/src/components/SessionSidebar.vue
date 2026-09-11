@@ -1,5 +1,6 @@
 <script setup>
-/** 会话侧栏：新会话 + 会话列表 + 管理后台入口 */
+/** 会话侧栏：新会话 + 会话列表 + 管理后台入口
+ *  桌面端常驻; 窄屏(<=768px)为抽屉, 由父组件通过 open 控制, 选择后 emit('close') 收起 */
 import { useI18n } from 'vue-i18n'
 import { useChatStore } from '../stores/chat'
 import { useAdminStore } from '../stores/admin'
@@ -9,16 +10,34 @@ const { t } = useI18n()
 const chat = useChatStore()
 const admin = useAdminStore()
 const router = useRouter()
-const emit = defineEmits(['admin-click'])
+
+defineProps({ open: { type: Boolean, default: false } })
+const emit = defineEmits(['admin-click', 'close'])
 
 async function del(id, title) {
   if (confirm(t('sidebar.confirmDelete', { title }))) await chat.deleteSession(id)
 }
+function onNew() {
+  chat.newSession()
+  emit('close')
+}
+function onSelect(id) {
+  chat.selectSession(id)
+  emit('close')
+}
+function onAdmin() {
+  emit('admin-click')
+  emit('close')
+}
+function onAdminPanel() {
+  router.push('/admin/dashboard')
+  emit('close')
+}
 </script>
 
 <template>
-  <aside class="sidebar">
-    <button class="new-chat-btn" @click="chat.newSession()">
+  <aside class="sidebar" :class="{ open }">
+    <button class="new-chat-btn" @click="onNew">
       <span class="plus">＋</span> {{ t('sidebar.newChat') }}
     </button>
 
@@ -28,7 +47,7 @@ async function del(id, title) {
         :key="s.id"
         class="session-item"
         :class="{ active: s.id === chat.currentSessionId }"
-        @click="chat.selectSession(s.id)"
+        @click="onSelect(s.id)"
       >
         <span class="dot"></span>
         <span class="title">{{ s.title }}</span>
@@ -38,10 +57,10 @@ async function del(id, title) {
     </div>
 
     <div class="sidebar-footer">
-      <button v-if="admin.isLoggedIn" class="admin-entry" @click="router.push('/admin/dashboard')">
+      <button v-if="admin.isLoggedIn" class="admin-entry" @click="onAdminPanel">
         <span class="icon">⚙</span> {{ t('sidebar.adminPanel') }}
       </button>
-      <button v-else class="admin-entry" @click="emit('admin-click')">
+      <button v-else class="admin-entry" @click="onAdmin">
         <span class="icon">⚙</span> {{ t('sidebar.adminLogin') }}
       </button>
       <div class="copyright">{{ t('sidebar.copyright') }}</div>
@@ -121,4 +140,20 @@ async function del(id, title) {
 .admin-entry:hover { background: rgba(255, 255, 255, 0.08); color: #fff; }
 .admin-entry .icon { color: var(--c-gold); }
 .copyright { text-align: center; font-size: 10.5px; color: #4c6660; margin-top: 10px; letter-spacing: 0.5px; }
+
+/* ---- 窄屏: 抽屉模式 ---- */
+@media (max-width: 768px) {
+  .sidebar {
+    position: fixed;
+    top: 0; left: 0; bottom: 0;
+    z-index: 60;
+    width: 286px;
+    max-width: 84vw;
+    transform: translateX(-100%);
+    transition: transform 0.28s cubic-bezier(0.22, 0.61, 0.36, 1);
+    box-shadow: 0 0 40px rgba(0, 0, 0, 0.35);
+  }
+  .sidebar.open { transform: translateX(0); }
+  .session-item .del { opacity: 1; }  /* 触屏无 hover, 常显删除 */
+}
 </style>

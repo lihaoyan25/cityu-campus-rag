@@ -27,6 +27,7 @@ export default {
     adminPanel: 'Admin Panel',
     logoutAdmin: 'Exit Admin',
     langTip: 'Language',
+    menuTip: 'Sessions',
     disclaimer: 'AI-generated content. Please verify important information.',
     tip1: 'Library opening hours',
     tip2: 'How to replace a student ID',

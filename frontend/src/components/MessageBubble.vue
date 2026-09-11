@@ -182,6 +182,16 @@ function onBubbleClick(e) {
 }
 
 .bubble { max-width: 82%; border-radius: 14px; }
+
+/* 手机上气泡占满整行(头像+间隙外), 提升长回答阅读宽度 */
+@media (max-width: 768px) {
+  .msg-row { gap: 8px; margin-bottom: 16px; }
+  .avatar { width: 27px; height: 27px; }
+  .user-avatar svg, .ai-avatar svg { width: 21px; height: 21px; }
+  .bubble { max-width: 100%; }
+  .ai-bubble { padding: 12px 14px; }
+  .user-bubble { padding: 9px 14px; }
+}
 .user-bubble {
   background: linear-gradient(135deg, var(--c-primary), var(--c-primary-light));
   color: #fff;

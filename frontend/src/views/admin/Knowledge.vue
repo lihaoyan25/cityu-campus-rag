@@ -247,8 +247,12 @@ h2 { margin: 0; font-size: 20px; }
   border-radius: var(--r-md);
   box-shadow: var(--shadow-card);
   overflow: hidden;
+  overflow-x: auto;  /* 窄屏表格横向滚动(覆盖 hidden 的 x 轴) */
 }
 table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+@media (max-width: 768px) {
+  table { min-width: 720px; }  /* 窄屏撑开表格, 由 .table-card 横向滚动 */
+}
 th {
   text-align: left;
   padding: 12px 14px;

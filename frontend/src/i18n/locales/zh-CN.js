@@ -27,6 +27,7 @@ export default {
     adminPanel: '管理后台',
     logoutAdmin: '退出管理',
     langTip: '切换语言',
+    menuTip: '会话列表',
     disclaimer: '内容由 AI 生成，请自行核实重要信息',
     tip1: '图书馆开放时间',
     tip2: '如何办理学生证',
@@ -36,7 +37,7 @@ export default {
     q3: '我该如何预约研讨室？',
   },
   chat: {
-    inputPlaceholder: '输入你的问题，Enter 发送，Shift+Enter 换行',
+    inputPlaceholder: '向助手提问...',
     deepThinking: '深度思考',
     on: '已开启',
     off: '已关闭',

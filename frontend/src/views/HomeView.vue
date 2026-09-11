@@ -20,6 +20,7 @@ const router = useRouter()
 const showLogin = ref(false)
 const scrollRef = ref(null)
 const heroInput = ref(null)
+const sidebarOpen = ref(false)  // 窄屏抽屉侧栏开合
 
 const heroMode = computed(() => !chat.hasMessages)
 
@@ -58,9 +59,19 @@ const tips = computed(() => [
 
 <template>
   <div class="home">
-    <SessionSidebar @admin-click="showLogin = true" />
+    <!-- 窄屏抽屉遮罩 -->
+    <div class="drawer-mask" :class="{ show: sidebarOpen }" @click="sidebarOpen = false"></div>
+
+    <SessionSidebar :open="sidebarOpen" @admin-click="showLogin = true" @close="sidebarOpen = false" />
 
     <div class="main">
+      <!-- 窄屏左上角汉堡按钮 -->
+      <button class="hamburger" :title="t('home.menuTip')" @click="sidebarOpen = true">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+          <path d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      </button>
+
       <!-- 右上角悬浮按钮组：语言 + 管理员 -->
       <div class="float-actions">
         <n-dropdown :options="langOptions" trigger="click" @select="onLangPick">
@@ -119,6 +130,7 @@ const tips = computed(() => [
 .home {
   display: flex;
   height: 100vh;
+  height: 100dvh;  /* 移动端浏览器地址栏收缩时保持满屏 */
   overflow: hidden;
 }
 .main {
@@ -128,6 +140,37 @@ const tips = computed(() => [
   min-width: 0;
   position: relative;
 }
+
+/* ---- 窄屏抽屉: 遮罩 + 汉堡按钮(桌面隐藏) ---- */
+.drawer-mask {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  background: rgba(15, 30, 26, 0.45);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s;
+}
+.drawer-mask.show { opacity: 1; pointer-events: auto; }
+.hamburger {
+  display: none;
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  z-index: 20;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  border: 1px solid var(--c-border);
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(8px);
+  color: var(--c-text-2);
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: var(--shadow-card);
+}
+.hamburger:hover { border-color: var(--c-primary-light); color: var(--c-primary); }
 
 /* ---- 右上角悬浮按钮 ---- */
 .float-actions {
@@ -213,4 +256,26 @@ const tips = computed(() => [
   background: linear-gradient(to top, var(--c-bg) 65%, transparent);
 }
 .dock-inner { max-width: 860px; margin: 0 auto; }
+
+/* ---- 移动端适配 ---- */
+@media (max-width: 768px) {
+  .drawer-mask { display: block; }
+  .hamburger { display: inline-flex; }
+
+  .float-actions { top: 14px; right: 14px; gap: 8px; }
+  .float-btn { height: 34px; padding: 0 12px; font-size: 12.5px; }
+  .float-btn.lang { width: 34px; }
+
+  .hero { padding: 0 18px 4vh; }
+  .hero-badge { width: 46px; height: 46px; margin-bottom: 14px; }
+  .hero h1 { font-size: 23px; }
+  .hero .sub { font-size: 13.5px; margin-bottom: 22px; }
+  .hero-tips { gap: 8px; margin-top: 14px; }
+  .tip { font-size: 12px; padding: 6px 12px; }
+
+  .msg-list { padding: 64px 10px 10px; }
+  .input-dock {
+    padding: 8px 12px calc(12px + env(safe-area-inset-bottom, 0px));
+  }
+}
 </style>

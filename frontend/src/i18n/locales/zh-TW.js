@@ -27,6 +27,7 @@ export default {
     adminPanel: '管理後台',
     logoutAdmin: '退出管理',
     langTip: '多語言切換',
+    menuTip: '會話列表',
     disclaimer: '內容由 AI 生成，請自行核實重要資訊',
     tip1: '圖書館開放時間',
     tip2: '如何辦理學生證',
