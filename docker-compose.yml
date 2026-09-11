@@ -25,7 +25,7 @@ services:
     environment:
       - TZ=Asia/Shanghai
     expose:
-      - "8001"
+      - "8000"                       # 官方镜像容器内默认监听 8000
 
   backend:
     build: ./backend
@@ -36,7 +36,7 @@ services:
       TZ: Asia/Shanghai
       # 容器特有覆盖: 服务名互访 + 容器 MySQL 密码
       CHROMA_HTTP_HOST: chroma
-      CHROMA_HTTP_PORT: "8001"
+      CHROMA_HTTP_PORT: "8000"       # chroma 容器内默认监听 8000(勿用宿主机的 8001)
       MYSQL_HOST: mysql
       MYSQL_PASSWORD: ${MYSQL_ROOT_PASSWORD:-cityu_rag_root}
     volumes:
