@@ -37,8 +37,6 @@ git clone https://github.com/lihaoyan25/cityu-campus-rag.git
 cd cityu-campus-rag
 ```
 
-> 私有仓库需要在 URL 中带上 GitHub Token（Token 申请方法见 [4.5 节](#5-把代码上传到服务器)）。
-
 **方式二：网页下载**
 
 打开仓库页面 → 绿色 `Code` 按钮 → `Download ZIP` → 解压到任意目录。
@@ -333,25 +331,20 @@ sudo fallocate -l 2G /swapfile && sudo chmod 600 /swapfile && sudo mkswap /swapf
 
 ### 5. 把代码上传到服务器
 
-**方式一：从 GitHub 克隆（推荐，方便后续更新）**
+**方式一：git 克隆（推荐，方便后续更新）**
 
-先在 GitHub 申请 Personal Access Token：
-1. GitHub → 右上角头像 → **Settings** → 左侧最底 **Developer settings**
-2. **Personal access tokens** → **Tokens (classic)** → **Generate new token (classic)**
-3. Note 随便填（如 `server-deploy`），Expiration 选 30 天，**勾选 `repo` 权限**，生成
-4. **立刻复制**（`ghp_` 开头，只显示一次）
-
-服务器上克隆（把 Token 嵌入 URL，以后免输密码）：
+项目是公开仓库，服务器上直接克隆即可，不需要注册或登录 GitHub：
 
 ```bash
 sudo mkdir -p /opt/cityu-rag && sudo chown $USER:$USER /opt/cityu-rag
-git clone https://你的GitHub用户名:<你的Token>@github.com/lihaoyan25/cityu-campus-rag.git /opt/cityu-rag
+git clone https://github.com/lihaoyan25/cityu-campus-rag.git /opt/cityu-rag
 cd /opt/cityu-rag
 ```
 
-**方式二：scp 直传（不经过 GitHub）**
+**方式二：scp 直传（本地已有项目文件夹时）**
 
-在你本地电脑的 PowerShell 执行（注意路径按实际调整）：
+如果你是在自己电脑上下载/修改过项目（例如下载的 ZIP 解压后），在**本地电脑**的 PowerShell
+执行上传（路径按实际调整，`admin` 换成你的服务器用户名）：
 
 ```powershell
 scp -r C:\你的路径\cityu-campus-rag admin@服务器IP:/opt/cityu-rag
