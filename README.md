@@ -5,6 +5,22 @@
 > **想部署这个项目？** 保姆级部署教程请看 **[DEPLOY.md](DEPLOY.md)**:
 > 涵盖 API Key 申请、.env 配置、本地部署、云服务器 Docker 一键部署、常见问题排查, 零基础可跟随
 
+## 项目预览
+
+> 项目截图所展示知识库内容均来自[CityU Macau官网](https://www.cityu.edu.mo/)公开可查阅文档, 模型配置项等敏感信息已脱敏处理
+
+![首页效果图](/screenshots/home.png)
+
+![问答效果图-心理咨询](/screenshots/chat_mental_problem_sim.png)
+
+![管理员仪表盘效果图](/screenshots/admin_dashboard.png)
+
+![管理员知识库管理效果图](/screenshots/admin_knowledge.png)
+
+![管理员知识库分片效果图](/screenshots/admin_knowledge_chunk.png)
+
+![管理员模型管理配置效果图](/screenshots/admin_model.png)
+
 ## 架构总览
 
 ```
